@@ -1,49 +1,62 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpaceShip : MonoBehaviour
+namespace SpaceShooter
 {
-    public float speed = 1.5f;
-
-    /// <summary>
-    /// Updates the game object once per frame.
-    /// </summary>
-    private void Update()
+    public class PlayerSpaceShip : SpaceShipBase
     {
-        // Gets player input and turns it into
-        // a movement vector for the game object
-        Vector3 movementVector = GetMovementVector();
+        //private float horSpeedModifier = 2f;
+        //private float vertSpeedModifier = 1f;
 
-        // Moves the game object
-        transform.Translate(speed * movementVector * Time.deltaTime);
-    }
+        public const string HORIZONTAL_AXIS = "Horizontal";
+        public const string VERTICAL_AXIS = "Vertical";
 
-    private Vector3 GetMovementVector()
-    {
-        // The movement vector that will be returned
-        Vector3 movementVector = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.W))
+        private Vector3 GetInputVector()
         {
-            movementVector += Vector3.up;
+            // The movement vector that will be returned
+            Vector3 movementVector = Vector3.zero;
+
+            float horizontalInput = Input.GetAxis(HORIZONTAL_AXIS);
+            float verticalInput = Input.GetAxis(VERTICAL_AXIS);
+
+            return new Vector3(horizontalInput, verticalInput);
+    
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    movementVector += Vector3.up * vertSpeedModifier;
+            //}
+
+            //if (Input.GetKey(KeyCode.S))
+            //{
+            //    movementVector += Vector3.down * vertSpeedModifier;
+            //}
+
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    movementVector += Vector3.left * horSpeedModifier;
+            //}
+
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    movementVector += Vector3.right * horSpeedModifier;
+            //}
+
+            //return movementVector;
         }
 
-        if (Input.GetKey(KeyCode.S))
+        /// <summary>
+        /// Moves the space ship.
+        /// </summary>
+        protected override void Move()
         {
-            movementVector += Vector3.down;
-        }
+            // Gets player input and turns it into
+            // a movement vector for the game object
+            Vector3 inputVector = GetInputVector();
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            movementVector += Vector3.left;
+            // Moves the game object
+            transform.Translate(Speed * inputVector * Time.deltaTime);
         }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            movementVector += Vector3.right;
-        }
-
-        return movementVector;
     }
 }
