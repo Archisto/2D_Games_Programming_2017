@@ -19,7 +19,7 @@ namespace SpaceShooter
         {
             if (enemySpawner == null)
             {
-                Debug.LogError("No reference to an enemy spawner!");
+                Debug.LogError("No reference to an enemy spawner.");
 
                 enemySpawner = GetComponentInChildren<Spawner>();
 
@@ -49,6 +49,17 @@ namespace SpaceShooter
             }
 
             return enemyShip;
+        }
+
+        /// <summary>
+        /// Spawns a new enemy with a key press.
+        /// </summary>
+        public void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                SpawnEnemyUnit();
+            }
         }
     }
 }

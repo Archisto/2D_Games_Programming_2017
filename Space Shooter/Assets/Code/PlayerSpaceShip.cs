@@ -12,6 +12,7 @@ namespace SpaceShooter
 
         public const string HORIZONTAL_AXIS = "Horizontal";
         public const string VERTICAL_AXIS = "Vertical";
+        public const string FIRE_BUTTON_NAME = "Fire1";
 
         private Vector3 GetInputVector()
         {
@@ -56,7 +57,25 @@ namespace SpaceShooter
             Vector3 inputVector = GetInputVector();
 
             // Moves the game object
-            transform.Translate(Speed * inputVector * Time.deltaTime);
+            transform.Translate(Utils.GetMovement(inputVector, Speed));
         }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (Input.GetButton(FIRE_BUTTON_NAME))
+            {
+                Shoot();
+            }
+        }
+
+        //protected override void Shoot()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        FireProjectile();
+        //    }
+        //}
     }
 }

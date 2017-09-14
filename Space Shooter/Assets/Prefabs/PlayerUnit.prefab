@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 212762781983073846}
   - component: {fileID: 95011455436779036}
   - component: {fileID: 114224629061061402}
-  m_Layer: 0
+  - component: {fileID: 114783239999634910}
+  m_Layer: 8
   m_Name: PlayerUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,6 +72,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+--- !u!114 &114783239999634910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1102321784654186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7ee0e88594cce4ea772f52bfc43dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 0.5
+  projectilePrefab: {fileID: 114673119845481300, guid: 5e44bf2fdf3356d49b3bac2bc7022698,
+    type: 2}
 --- !u!212 &212762781983073846
 SpriteRenderer:
   m_ObjectHideFlags: 1

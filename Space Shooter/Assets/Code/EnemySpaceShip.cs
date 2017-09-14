@@ -31,14 +31,14 @@ namespace SpaceShooter
         {
             if (movementTargets == null || movementTargets.Length == 0)
             {
-                Debug.LogError("No movement targets set!");
+                Debug.LogError("No movement targets set.");
                 return;
             }
 
             UpdateMovementTarget();
 
             Vector3 direction = (CurrentMovementTarget.position - transform.position).normalized;
-            transform.Translate(direction * Speed * Time.deltaTime);
+            transform.Translate(Utils.GetMovement(direction, Speed));
         }
 
         private void UpdateMovementTarget()
@@ -51,6 +51,12 @@ namespace SpaceShooter
                 currentMovementTargetIndex =
                     Utils.NumberRangeLoopAround(currentMovementTargetIndex, 0, movementTargets.Length - 1);
             }
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
 }
