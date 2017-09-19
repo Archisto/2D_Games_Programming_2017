@@ -70,12 +70,33 @@ namespace SpaceShooter
             }
         }
 
-        //protected override void Shoot()
-        //{
-        //    if (Input.GetKeyDown(KeyCode.Space))
-        //    {
-        //        FireProjectile();
-        //    }
-        //}
+        /// <summary>
+        /// Checks collisions.
+        /// </summary>
+        /// <param name="other">a collided object's collider</param>
+        protected override void OnTriggerEnter2D(Collider2D other)
+        {
+            // Checks harmful collisions
+            base.OnTriggerEnter2D(other);
+
+            // The space ship's health component
+            Health health = GetComponent<Health>();
+
+            // The collided object, maybe a health item
+            HealthItem healthItem = other.gameObject.GetComponent<HealthItem>();
+
+            // Checks if the collided object is a health item
+            if (healthItem != null)
+            {
+                // Destroys the health item
+                Destroy(other.gameObject);
+
+                // Increases the current health
+                health.IncreaseHealth(healthItem.GetHealthBoost());
+
+                // Prints debug info
+                Debug.Log("Health boost! HP: " + health.CurrentHealth);
+            }
+        }
     }
 }

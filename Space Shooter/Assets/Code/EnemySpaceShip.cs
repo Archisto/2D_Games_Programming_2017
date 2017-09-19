@@ -5,10 +5,13 @@ using UnityEngine;
 
 namespace SpaceShooter
 {
-    public class EnemySpaceShip : SpaceShipBase
+    public class EnemySpaceShip : SpaceShipBase, IDamageProvider
     {
         [SerializeField]
         private float reachDistance;
+
+        [SerializeField]
+        private int damage;
 
         private GameObject[] movementTargets;
         private int currentMovementTargetIndex = 0;
@@ -19,6 +22,11 @@ namespace SpaceShooter
             {
                 return movementTargets[currentMovementTargetIndex].transform;
             }
+        }
+
+        public int GetDamage()
+        {
+            return damage;
         }
 
         public void SetMovementTargets(GameObject[] movementTargets)
@@ -53,10 +61,11 @@ namespace SpaceShooter
             }
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected override void Update()
         {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+            base.Update();
+
+            Shoot();
         }
     }
 }

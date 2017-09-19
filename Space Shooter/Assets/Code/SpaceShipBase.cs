@@ -39,6 +39,9 @@ namespace SpaceShooter
             Debug.Log("SpaceShipBase - Awake");
         }
 
+        /// <summary>
+        /// Fires a projectile.
+        /// </summary>
         protected void Shoot()
         {
             foreach (Weapon weapon in weapons)
@@ -51,19 +54,6 @@ namespace SpaceShooter
         /// Makes the space ship move.
         /// </summary>
         protected abstract void Move();
-
-        /// <summary>
-        /// Fires a projectile.
-        /// </summary>
-        //protected abstract void Shoot();
-
-        //protected Projectile FireProjectile()
-        //{
-        //    GameObject firedProjectile = projectileSpawner.Spawn();
-        //    Projectile projectile = firedProjectile.GetComponent<Projectile>();
-
-        //    return projectile;
-        //}
 
         /// <summary>
         /// Updates the space ship.
@@ -83,16 +73,67 @@ namespace SpaceShooter
             {
                 Debug.LogException(e);
             }
+        }
 
-            // Attempts to fire a projectile
-            //try
+        /// <summary>
+        /// Checks collisions.
+        /// </summary>
+        /// <param name="other">a collided object's collider</param>
+        protected virtual void OnTriggerEnter2D(Collider2D other)
+        {
+            // The collided object, maybe a projectile
+            Projectile projectile = other.gameObject.GetComponent<Projectile>();
+
+            // Checks if the collided object is a projectile
+            if (projectile != null)
+            {
+                // Destroys the projectile
+                Destroy(other.gameObject);
+
+                // The space ship takes damage
+                TakeDamage(projectile);
+            }
+            //else
             //{
-            //    Shoot();
+            //    // The collided object, maybe an enemy space ship
+            //    EnemySpaceShip enemy = other.GetComponent<EnemySpaceShip>();
+            //    Debug.Log(enemy);
+
+            //    // Checks if the collided object is an enemy space ship
+            //    // and this object is not itself an enemy space ship
+            //    if (enemy != null && GetComponent<EnemySpaceShip>() == null)
+            //    {
+            //        // The space ship takes damage
+            //        TakeDamage(enemy);
+            //    }
+            //    // Otherwise no gamage is taken
+            //    else
+            //    {
+            //        Debug.Log("Hit, no damage");
+            //    }
             //}
-            //catch (System.Exception e)
-            //{
-            //    Debug.LogException(e);
-            //}
+        }
+
+        /// <summary>
+        /// Inflicts damage to the space ship, provided by an object.
+        /// </summary>
+        /// <param name="damageProvider">the damage provider</param>
+        private void TakeDamage(IDamageProvider damageProvider)
+        {
+            // The space ship's health component
+            Health health = GetComponent<Health>();
+
+            // Decreases the current health
+            health.DecreaseHealth(damageProvider.GetDamage());
+
+            // If the space ship dies, it is destroyed
+            if (health.Dead)
+            {
+                Destroy(gameObject);
+            }
+
+            // Prints debug info
+            Debug.Log("Hit! HP: " + health.CurrentHealth);
         }
     }
 }
