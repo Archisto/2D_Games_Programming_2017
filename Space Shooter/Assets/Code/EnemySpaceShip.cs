@@ -16,6 +16,17 @@ namespace SpaceShooter
         private GameObject[] movementTargets;
         private int currentMovementTargetIndex = 0;
 
+        /// <summary>
+        /// Gets the type of the unit: Enemy.
+        /// </summary>
+        public override Type UnitType
+        {
+            get
+            {
+                return Type.Enemy;
+            }
+        }
+
         public Transform CurrentMovementTarget
         {
             get
@@ -51,8 +62,8 @@ namespace SpaceShooter
 
         private void UpdateMovementTarget()
         {
-            // If the enemy space ship has reached the current movement target,
-            // the movement target is updated
+            // If the enemy space ship has reached the current
+            // movement target, the movement target is updated
             if (Vector3.Distance(transform.position, CurrentMovementTarget.position) < reachDistance)
             {
                 currentMovementTargetIndex++;
@@ -65,7 +76,14 @@ namespace SpaceShooter
         {
             base.Update();
 
-            Shoot();
+            Shoot(UnitType);
+        }
+
+        protected override void Die()
+        {
+            FindObjectOfType<LevelController>().EnemyDestroyed();
+
+            base.Die();
         }
     }
 }

@@ -20,5 +20,19 @@ namespace SpaceShooter
         {
             return healthBoost;
         }
+
+        protected void OnTriggerEnter2D(Collider2D other)
+        {
+            IDamageReceiver healthReceiver = other.GetComponent<IDamageReceiver>();
+
+            if (healthReceiver != null)
+            {
+                // Restores health to the target
+                healthReceiver.RestoreHealth(GetHealthBoost());
+
+                // Destroys the health item
+                Destroy(gameObject);
+            }
+        }
     }
 }

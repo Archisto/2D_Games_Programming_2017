@@ -14,15 +14,26 @@ namespace SpaceShooter
         public const string VERTICAL_AXIS = "Vertical";
         public const string FIRE_BUTTON_NAME = "Fire1";
 
+        /// <summary>
+        /// Gets the type of the unit: Player.
+        /// </summary>
+        public override Type UnitType
+        {
+            get
+            {
+                return Type.Player;
+            }
+        }
+
         private Vector3 GetInputVector()
         {
-            // The movement vector that will be returned
-            Vector3 movementVector = Vector3.zero;
-
             float horizontalInput = Input.GetAxis(HORIZONTAL_AXIS);
             float verticalInput = Input.GetAxis(VERTICAL_AXIS);
 
             return new Vector3(horizontalInput, verticalInput);
+
+            // The movement vector that will be returned
+            //Vector3 movementVector = Vector3.zero;
     
             //if (Input.GetKey(KeyCode.W))
             //{
@@ -66,7 +77,7 @@ namespace SpaceShooter
 
             if (Input.GetButton(FIRE_BUTTON_NAME))
             {
-                Shoot();
+                Shoot(UnitType);
             }
         }
 
@@ -74,29 +85,20 @@ namespace SpaceShooter
         /// Checks collisions.
         /// </summary>
         /// <param name="other">a collided object's collider</param>
-        protected override void OnTriggerEnter2D(Collider2D other)
-        {
-            // Checks harmful collisions
-            base.OnTriggerEnter2D(other);
+        //protected void OnTriggerEnter2D(Collider2D other)
+        //{
+        //    // The collided object, maybe a health item
+        //    HealthItem healthItem = other.gameObject.GetComponent<HealthItem>();
 
-            // The space ship's health component
-            Health health = GetComponent<Health>();
+        //    // Checks if the collided object is a health item
+        //    if (healthItem != null)
+        //    {
+        //        // Destroys the health item
+        //        Destroy(other.gameObject);
 
-            // The collided object, maybe a health item
-            HealthItem healthItem = other.gameObject.GetComponent<HealthItem>();
-
-            // Checks if the collided object is a health item
-            if (healthItem != null)
-            {
-                // Destroys the health item
-                Destroy(other.gameObject);
-
-                // Increases the current health
-                health.IncreaseHealth(healthItem.GetHealthBoost());
-
-                // Prints debug info
-                Debug.Log("Health boost! HP: " + health.CurrentHealth);
-            }
-        }
+        //        // Increases the current health
+        //        RestoreHealth(healthItem.GetHealthBoost());
+        //    }
+        //}
     }
 }

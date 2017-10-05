@@ -391,6 +391,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &678313500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 678313501}
+  - component: {fileID: 678313502}
+  m_Layer: 0
+  m_Name: PlayerProjectilePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &678313501
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 678313500}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.10590288, y: 0.695257, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1367269061}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678313502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 678313500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aee737ffabec504e81711478f3248cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSize: 8
+  objectPrefab: {fileID: 1773817692126764, guid: 5e44bf2fdf3356d49b3bac2bc7022698,
+    type: 2}
+  shouldGrowWhenOutOfObjects: 0
 --- !u!1 &684301733
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +779,50 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1232913684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1232913685}
+  - component: {fileID: 1232913686}
+  m_Layer: 0
+  m_Name: EnemyProjectilePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1232913685
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1232913684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.10590288, y: 0.695257, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1367269061}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232913686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1232913684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aee737ffabec504e81711478f3248cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSize: 30
+  objectPrefab: {fileID: 1342042077337530, guid: 8a98a40ee0d19f6448580349564b637f,
+    type: 2}
+  shouldGrowWhenOutOfObjects: 0
 --- !u!1 &1367269059
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,11 +850,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67e2f05e5f9d03479b422bf77fe55d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerProjectilePool: {fileID: 678313502}
+  enemyProjectilePool: {fileID: 1232913686}
   enemySpawner: {fileID: 430077652}
   enemyMovementTargets:
   - {fileID: 49038865}
   - {fileID: 315827850}
   - {fileID: 2087133499}
+  waitBeforeSpawning: 2
+  spawnInterval: 1
+  maxConcurrentEnemyCount: 10
 --- !u!4 &1367269061
 Transform:
   m_ObjectHideFlags: 0
@@ -781,6 +874,8 @@ Transform:
   - {fileID: 49038866}
   - {fileID: 315827851}
   - {fileID: 2087133500}
+  - {fileID: 678313501}
+  - {fileID: 1232913685}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -38,7 +38,7 @@ namespace SpaceShooter
         /// <summary>
         /// Sets the current health value at the start.
         /// </summary>
-        private void Start()
+        private void Awake()
         {
             currentHealth = startingHealth;
         }
@@ -57,7 +57,7 @@ namespace SpaceShooter
         /// <summary>
         /// Gets whether health has reached the minimum value.
         /// </summary>
-        public bool Dead
+        public bool IsDead
         {
             get
             {

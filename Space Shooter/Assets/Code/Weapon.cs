@@ -6,39 +6,68 @@ namespace SpaceShooter
 {
     public class Weapon : MonoBehaviour
     {
-        [SerializeField]
-        private float cooldownTime = 0.5f;
-
+        /// <summary>
+        /// The projectile
+        /// </summary>
         [SerializeField]
         private Projectile projectilePrefab;
 
-        private float timeSinceShot = 0f;
+        /// <summary>
+        /// The speed of the projectile
+        /// </summary>
+        [SerializeField]
+        private float projectileSpeed = 8f;
+
+        [SerializeField]
+        private float waitBeforeShooting = 0;
+
+        [SerializeField]
+        private float cooldownTime = 0.5f;
+
+        private float elapsedWaitTime = 0f;
+        private bool initialWaitOver = false;
         private bool isInCooldown = false;
 
         /// <summary>
         /// Makes the weapon fire a projectile.
         /// </summary>
         /// <returns>was the shot successfully fired</returns>
-        public bool Shoot()
+        public bool Shoot(SpaceShipBase.Type type)
         {
             // Checks if the weapon is in cooldown phase
             // and if so, returns false for failed shot
-            if (isInCooldown)
+            if (isInCooldown || !initialWaitOver)
             {
                 return false;
             }
 
             // Creates a new projectile
-            Projectile projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            //Projectile projectile =
+            //    Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+            // Gets an inactive projectile from the projectile pool
+            Projectile projectile = LevelController.Current.GetProjectile(type);
+
+            // If the projectile is null, returns false for unsuccessful shot
+            if (projectile == null)
+            {
+                return false;
+            }
+
+            // Sets the projectile's type (either Player or Enemy)
+            projectile.ProjectileType = GetComponentInParent<SpaceShipBase>().UnitType;
+
+            // Sets the projectile's starting position
+            projectile.transform.position = transform.position;
 
             // Launches the projectile
-            projectile.Launch(transform.up);
+            projectile.Launch(transform.up, projectileSpeed);
 
             // Goes to the cooldown phase
             isInCooldown = true;
 
             // Resets the time since shot
-            timeSinceShot = 0f;
+            elapsedWaitTime = 0f;
 
             // Returns true for successful shot
             return true;
@@ -46,10 +75,19 @@ namespace SpaceShooter
 
         private void Update()
         {
+            if (!initialWaitOver)
+            {
+                elapsedWaitTime += Time.deltaTime;
+                if (elapsedWaitTime >= waitBeforeShooting)
+                {
+                    initialWaitOver = true;
+                }
+            }
+
             if (isInCooldown)
             {
-                timeSinceShot += Time.deltaTime;
-                if (timeSinceShot >= cooldownTime)
+                elapsedWaitTime += Time.deltaTime;
+                if (elapsedWaitTime >= cooldownTime)
                 {
                     isInCooldown = false;
                 }

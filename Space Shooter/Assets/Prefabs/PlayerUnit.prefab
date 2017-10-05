@@ -143,9 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7ee0e88594cce4ea772f52bfc43dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0.2
   projectilePrefab: {fileID: 114636655081188526, guid: 5e44bf2fdf3356d49b3bac2bc7022698,
     type: 2}
+  projectileSpeed: 8
+  waitBeforeShooting: 0
+  cooldownTime: 0.2
 --- !u!212 &212762781983073846
 SpriteRenderer:
   m_ObjectHideFlags: 1

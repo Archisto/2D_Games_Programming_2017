@@ -13,6 +13,8 @@ namespace SpaceShooter
 
         public static int NumberWithinLimits(int number, int min, int max)
         {
+            // See: Mathf.Clamp(number, min, max);
+
             if (min > max)
             {
                 int temp = min;

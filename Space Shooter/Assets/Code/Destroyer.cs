@@ -8,7 +8,16 @@ namespace SpaceShooter
     {
         void OnTriggerEnter2D(Collider2D other)
         {
-            Destroy(other.gameObject);
+            Projectile projectile = other.GetComponent<Projectile>();
+
+            if (projectile != null)
+            {
+                LevelController.Current.ReturnProjectile(projectile.ProjectileType, projectile);
+            }
+            else
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 }

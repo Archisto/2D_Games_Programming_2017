@@ -12,7 +12,7 @@ namespace SpaceShooter
         private int currentIndex = 0;
 
         /// <summary>
-        /// Called first when a Scene is loaded.
+        /// Called first when a Scene is loaded or the object is created.
         /// </summary>
         private void Awake()
         {
@@ -29,6 +29,14 @@ namespace SpaceShooter
             {
                 Debug.LogError("No colors available!");
             }
+        }
+
+        /// <summary>
+        /// Initializes the game object (if the script is enabled).
+        /// </summary>
+        private void Start()
+        {
+            //Debug.Log("Start");
         }
 
         /// <summary>
@@ -53,14 +61,6 @@ namespace SpaceShooter
         private void OnDestroy()
         {
             //Debug.Log("OnDestroy");
-        }
-
-        /// <summary>
-        /// Initializes the game object.
-        /// </summary>
-        private void Start()
-        {
-            //Debug.Log("Start");
         }
 
         /// <summary>

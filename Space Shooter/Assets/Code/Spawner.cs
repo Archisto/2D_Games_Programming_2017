@@ -11,7 +11,9 @@ namespace SpaceShooter
 
         public GameObject Spawn()
         {
-            GameObject spawnedObject = Instantiate(prefabToSpawn, transform.position, transform.rotation);
+            GameObject spawnedObject = 
+                Instantiate(prefabToSpawn, transform.position, transform.rotation);
+
             return spawnedObject;
         }
     }
