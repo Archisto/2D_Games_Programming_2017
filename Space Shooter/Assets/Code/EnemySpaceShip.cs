@@ -76,7 +76,7 @@ namespace SpaceShooter
         {
             base.Update();
 
-            Shoot(UnitType);
+            Shoot();
         }
 
         protected override void Die()

@@ -77,7 +77,7 @@ namespace SpaceShooter
 
             if (Input.GetButton(FIRE_BUTTON_NAME))
             {
-                Shoot(UnitType);
+                Shoot();
             }
         }
 

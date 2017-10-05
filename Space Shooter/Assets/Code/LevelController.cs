@@ -147,6 +147,7 @@ namespace SpaceShooter
 
         public Projectile GetProjectile(SpaceShipBase.Type type)
         {
+            // The result object
             GameObject result = null;
 
             // Tries to get a projectile from the correct pool
@@ -159,12 +160,22 @@ namespace SpaceShooter
                 result = enemyProjectilePool.GetPoolObject();
             }
 
-            // If the result is not null, the projectile it contains is returned
+            // If the result is not null, its Projectile component is returned
             if (result != null)
             {
-                return result.GetComponent<Projectile>();
+                Projectile projectile = result.GetComponent<Projectile>();
+
+                // If there's no Projectile component, prints an error message
+                if (projectile == null)
+                {
+                    Debug.LogError("Projectile component could not be found" +
+                                   " from the object fetched from the pool");
+                }
+
+                return projectile;
             }
 
+            // Returns null if there's no result
             return null;
         }
 

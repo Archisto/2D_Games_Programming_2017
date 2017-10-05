@@ -43,8 +43,16 @@ namespace SpaceShooter
             // Prints debug data
             Debug.Log("SpaceShipBase - Awake");
 
+            // Gets all weapons attached to the space ship
             weapons = GetComponentsInChildren<Weapon>(includeInactive: true);
 
+            // Initializes each weapon
+            foreach (Weapon weapon in weapons)
+            {
+                weapon.Init(this);
+            }
+
+            // Initializes health
             Health = GetComponent<Health>();
         }
 
@@ -56,11 +64,11 @@ namespace SpaceShooter
         /// <summary>
         /// Fires a projectile.
         /// </summary>
-        protected void Shoot(Type type)
+        protected void Shoot()
         {
             foreach (Weapon weapon in weapons)
             {
-                weapon.Shoot(type);
+                weapon.Shoot();
             }
         }
 
@@ -131,12 +139,14 @@ namespace SpaceShooter
             Destroy(gameObject);
         }
 
-        protected Projectile GetPooledProjectile()
+        // not protected anymore!
+        public Projectile GetPooledProjectile()
         {
             return LevelController.Current.GetProjectile(UnitType);
         }
 
-        protected bool ReturnPooledProjectile(Projectile projectile)
+        // not protected anymore!
+        public bool ReturnPooledProjectile(Projectile projectile)
         {
             return LevelController.Current.ReturnProjectile(UnitType, projectile);
         }

@@ -20,20 +20,24 @@ namespace SpaceShooter
         //[SerializeField]
         //private float speed = 8f;
 
+        private Weapon weapon;
+
         private float speed = 1;
 
-        private SpaceShipBase.Type projectileType;
+        //private SpaceShipBase.Type projectileType;
         private Rigidbody2D rigidBody;
         private Vector2 direction;
         private bool isLaunched = false;
 
         /// <summary>
-        /// Gets or sets the projectile's type (either Player or Enemy).
+        /// Gets the projectile's type (either Player or Enemy).
         /// </summary>
         public SpaceShipBase.Type ProjectileType
         {
-            get { return projectileType; }
-            set { projectileType = value; }
+            get { return weapon.ProjectileType; }
+
+            //get { return projectileType; }
+            //set { projectileType = value; }
         }
 
         /// <summary>
@@ -61,23 +65,30 @@ namespace SpaceShooter
 
         protected void OnTriggerEnter2D(Collider2D other)
         {
-            IDamageReceiver damageReceiver = other.GetComponent<IDamageReceiver>();
+            IDamageReceiver damageReceiver =
+                other.GetComponent<IDamageReceiver>();
 
             if (damageReceiver != null)
             {
                 // Inflicts damage to the target
                 damageReceiver.TakeDamage(GetDamage());
 
-                // Destroys the projectile
-                //Destroy(gameObject);
+                // Returns the projectile back to the pool
+                //LevelController.Current.ReturnProjectile(ProjectileType, this);
 
-                // Returns the projectile to the pool
-                LevelController.Current.ReturnProjectile(ProjectileType, this);
+                if ( !weapon.DisposeProjectile(this) )
+                {
+                    Debug.LogError("Could not return the projectile to the pool.");
+
+                    // Destroys the projectile
+                    Destroy(gameObject);
+                }
             }
         }
 
-        public void Launch(Vector2 direction, float speed)
+        public void Launch(Weapon weapon, Vector2 direction, float speed)
         {
+            this.weapon = weapon;
             this.direction = direction;
             this.speed = speed;
             isLaunched = true;

@@ -16,20 +16,32 @@ namespace SpaceShooter
 
         private List<GameObject> pool;
 
+        /// <summary>
+        /// Initializes the game object pool.
+        /// </summary>
         protected void Awake()
         {
+            // Initializes the game object pool
             pool = new List<GameObject>(poolSize);
 
+            // Fills the pool with objects
             for (int i = 0; i < poolSize; i++)
             {
                 AddObject();
             }
         }
 
+        /// <summary>
+        /// Adds a new object to the pool.
+        /// </summary>
+        /// <param name="isActive">is the object immediately active</param>
+        /// <returns>the created game object</returns>
         private GameObject AddObject(bool isActive = false)
         {
+            // Creates a new instance of the object
             GameObject go = Instantiate(objectPrefab);
 
+            // Changes the object's activity status
             if (isActive)
             {
                 Activate(go);
@@ -39,31 +51,43 @@ namespace SpaceShooter
                 Deactivate(go);
             }
 
+            // Adds the created object to the pool 
             pool.Add(go);
 
+            // The pool size is increased if a new
+            // object is added after the initial amount
+            if (shouldGrow && pool.Count > poolSize)
+            {
+                poolSize++;
+            }
+
+            // Returns the created object
             return go;
         }
 
+        /// <summary>
+        /// Returns an object back to the pool.
+        /// </summary>
+        /// <param name="go">the game object</param>
+        /// <returns>could the object be returned back to the pool</returns>
         public bool ReturnObject(GameObject go)
         {
-            bool result = false;
-
             foreach (GameObject pooledObject in pool)
             {
                 if (pooledObject == go)
                 {
                     Deactivate(go);
-                    result = true;
 
-                    break;
+                    return true;
                 }
             }
 
-            return result;
+            Debug.LogError("The game object could not be returned to the pool.");
+            return false;
         }
 
         /// <summary>
-        /// Activates the given GameObject.
+        /// Activates the given object.
         /// </summary>
         /// <param name="go">a game object</param>
         protected virtual void Activate(GameObject go)
@@ -72,7 +96,7 @@ namespace SpaceShooter
         }
 
         /// <summary>
-        /// Deactivates the given GameObject.
+        /// Deactivates the given object.
         /// </summary>
         /// <param name="go">a game object</param>
         protected virtual void Deactivate(GameObject go)
@@ -80,6 +104,10 @@ namespace SpaceShooter
             go.SetActive(false);
         }
 
+        /// <summary>
+        /// Gets a currently unused object from the pool.
+        /// </summary>
+        /// <returns>a currently unused game object</returns>
         public GameObject GetPoolObject()
         {
             // The result object
@@ -96,7 +124,7 @@ namespace SpaceShooter
                 }
             }
 
-            // If there were no inactive objects in the pool and the
+            // If there are no inactive objects in the pool and the
             // pool should grow, a new object is added to the pool 
             if (result == null && shouldGrow)
             {
