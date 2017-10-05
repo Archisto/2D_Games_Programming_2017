@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SpaceShooter
 {
     [RequireComponent(typeof(Health))]
-    public abstract class SpaceShipBase : MonoBehaviour, IDamageReceiver
+    public abstract class SpaceShipBase : MonoBehaviour, IDamageReceiver, ISoundPlayer
     {
         public enum Type { Player, Enemy }
 
@@ -17,6 +17,8 @@ namespace SpaceShooter
         private float speed = 2f;
 
         private Weapon[] weapons;
+
+        private AudioSource pickupSound;
 
         public Weapon[] Weapons
         {
@@ -54,6 +56,14 @@ namespace SpaceShooter
 
             // Initializes health
             Health = GetComponent<Health>();
+
+            // Initializes audio
+            pickupSound = GetComponent<AudioSource>();
+
+            if (pickupSound == null)
+            {
+                Debug.LogError("No AudioSource component found in object SpaceShipBase.");
+            }
         }
 
         /// <summary>
@@ -149,6 +159,14 @@ namespace SpaceShooter
         public bool ReturnPooledProjectile(Projectile projectile)
         {
             return LevelController.Current.ReturnProjectile(UnitType, projectile);
+        }
+
+        public void PlaySound(string sound)
+        {
+            if (sound.Equals("healthItem") && pickupSound != null)
+            {
+                pickupSound.Play();
+            }
         }
 
         ///// <summary>

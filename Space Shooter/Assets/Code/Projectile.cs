@@ -29,6 +29,8 @@ namespace SpaceShooter
         private Vector2 direction;
         private bool isLaunched = false;
 
+        private AudioSource shootSound;
+
         /// <summary>
         /// Gets the projectile's type (either Player or Enemy).
         /// </summary>
@@ -47,10 +49,16 @@ namespace SpaceShooter
         protected virtual void Awake()
         {
             rigidBody = GetComponent<Rigidbody2D>();
+            shootSound = GetComponent<AudioSource>();
 
             if (rigidBody == null)
             {
-                Debug.LogError("No Rigidbody2D component found from the GameObject.");
+                Debug.LogError("No Rigidbody2D component found in object Projectile.");
+            }
+
+            if (shootSound == null)
+            {
+                Debug.LogError("No AudioSource component found in object Projectile.");
             }
         }
 
@@ -92,6 +100,12 @@ namespace SpaceShooter
             this.direction = direction;
             this.speed = speed;
             isLaunched = true;
+
+            // Plays a sound
+            if (shootSound != null)
+            {
+                shootSound.Play();
+            }
         }
 
         protected void FixedUpdate()

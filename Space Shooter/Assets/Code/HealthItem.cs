@@ -13,6 +13,15 @@ namespace SpaceShooter
         private int healthBoost;
 
         /// <summary>
+        /// Called first when a Scene is loaded.
+        /// Initializes the health item.
+        /// </summary>
+        protected virtual void Awake()
+        {
+            
+        }
+
+        /// <summary>
         /// Gets the amount of health given when collected.
         /// </summary>
         /// <returns>the amount of health given when collected</returns>
@@ -29,6 +38,13 @@ namespace SpaceShooter
             {
                 // Restores health to the target
                 healthReceiver.RestoreHealth(GetHealthBoost());
+
+                // Plays a sound
+                ISoundPlayer sound = other.GetComponent<ISoundPlayer>();
+                if (sound != null)
+                {
+                    sound.PlaySound("healthItem");
+                }
 
                 // Destroys the health item
                 Destroy(gameObject);

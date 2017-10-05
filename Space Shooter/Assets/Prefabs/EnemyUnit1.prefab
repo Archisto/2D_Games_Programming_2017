@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 114862027768293176, guid: 8a98a40ee0d19f6448580349564b637f,
     type: 2}
-  projectileSpeed: 5
+  projectileSpeed: 8
   waitBeforeShooting: 0
   cooldownTime: 2
 --- !u!114 &114432903984161316
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 114862027768293176, guid: 8a98a40ee0d19f6448580349564b637f,
     type: 2}
-  projectileSpeed: 5
+  projectileSpeed: 8
   waitBeforeShooting: 0
   cooldownTime: 2
 --- !u!212 &212951458769209698

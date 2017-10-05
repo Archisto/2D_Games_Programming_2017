@@ -30,3 +30,4 @@ C:\Kurssit\Programming\Space Shooter\Temp\bin\Debug\UnityEngine.HoloLens.xml
 C:\Kurssit\Programming\Space Shooter\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Kurssit\Programming\Space Shooter\obj\Debug\Assembly-CSharp.dll
 C:\Kurssit\Programming\Space Shooter\obj\Debug\Assembly-CSharp.pdb
+C:\Kurssit\Programming\Space Shooter\Temp\bin\Debug\TextMeshPro-1.0.55.2017.1.0b12.dll

@@ -80,25 +80,5 @@ namespace SpaceShooter
                 Shoot();
             }
         }
-
-        /// <summary>
-        /// Checks collisions.
-        /// </summary>
-        /// <param name="other">a collided object's collider</param>
-        //protected void OnTriggerEnter2D(Collider2D other)
-        //{
-        //    // The collided object, maybe a health item
-        //    HealthItem healthItem = other.gameObject.GetComponent<HealthItem>();
-
-        //    // Checks if the collided object is a health item
-        //    if (healthItem != null)
-        //    {
-        //        // Destroys the health item
-        //        Destroy(other.gameObject);
-
-        //        // Increases the current health
-        //        RestoreHealth(healthItem.GetHealthBoost());
-        //    }
-        //}
     }
 }
