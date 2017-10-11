@@ -7,9 +7,9 @@ namespace SpaceShooter
     public class Spawner : MonoBehaviour
     {
         [SerializeField]
-        private GameObject prefabToSpawn;
+        protected GameObject prefabToSpawn;
 
-        public GameObject Spawn()
+        public virtual GameObject Spawn()
         {
             GameObject spawnedObject = 
                 Instantiate(prefabToSpawn, transform.position, transform.rotation);

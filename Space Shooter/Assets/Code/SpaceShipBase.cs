@@ -18,17 +18,17 @@ namespace SpaceShooter
 
         private Weapon[] weapons;
 
-        private AudioSource pickupSound;
-
         public Weapon[] Weapons
         {
             get { return weapons; }
         }
 
         /// <summary>
-        /// An autoproperty. Backing fields are automatically protected by the compiler.
+        /// An auto-implemented property. Backing fields are automatically protected by the compiler.
         /// </summary>
         public Health Health { get; protected set; }
+
+        public bool Invulnerable { get; set; }
 
         /// <summary>
         /// Gets or sets the speed of the space ship.
@@ -57,13 +57,8 @@ namespace SpaceShooter
             // Initializes health
             Health = GetComponent<Health>();
 
-            // Initializes audio
-            pickupSound = GetComponent<AudioSource>();
-
-            if (pickupSound == null)
-            {
-                Debug.LogError("No AudioSource component found in object SpaceShipBase.");
-            }
+            // Initializes invincibility
+            Invulnerable = false;
         }
 
         /// <summary>
@@ -111,19 +106,23 @@ namespace SpaceShooter
         /// Inflicts damage to the space ship.
         /// </summary>
         /// <param name="amount">the amount of damage</param>
-        public void TakeDamage(int amount)
+        public virtual void TakeDamage(int amount)
         {
-            // Decreases the current health
-            Health.DecreaseHealth(amount);
-
-            // Prints debug info
-            Debug.Log(name + ": " + amount + " damage! HP: "
-                + Health.CurrentHealth);
-
-            // Kills the space ship if its HP reaches the minimum value
-            if (Health.IsDead)
+            // If the space ship isn't invulnerable, it takes damage
+            if (!Invulnerable)
             {
-                Die();
+                // Decreases the current health
+                Health.DecreaseHealth(amount);
+
+                // Prints debug info
+                Debug.Log(name + ": " + amount + " damage! HP: "
+                    + Health.CurrentHealth);
+
+                // Kills the space ship if its HP reaches the minimum value
+                if (Health.IsDead)
+                {
+                    Die();
+                }
             }
         }
 
@@ -161,51 +160,9 @@ namespace SpaceShooter
             return LevelController.Current.ReturnProjectile(UnitType, projectile);
         }
 
-        public void PlaySound(string sound)
+        public virtual void PlaySound(string sound)
         {
-            if (sound.Equals("healthItem") && pickupSound != null)
-            {
-                pickupSound.Play();
-            }
+            
         }
-
-        ///// <summary>
-        ///// Checks collisions.
-        ///// </summary>
-        ///// <param name="other">a collided object's collider</param>
-        //protected virtual void OnTriggerEnter2D(Collider2D other)
-        //{
-        //    // The collided object, maybe a projectile
-        //    Projectile projectile = other.gameObject.GetComponent<Projectile>();
-
-        //    // Checks if the collided object is a projectile
-        //    if (projectile != null)
-        //    {
-        //        // Destroys the projectile
-        //        Destroy(other.gameObject);
-
-        //        // The space ship takes damage
-        //        TakeDamage(projectile);
-        //    }
-        //    //else
-        //    //{
-        //    //    // The collided object, maybe an enemy space ship
-        //    //    EnemySpaceShip enemy = other.GetComponent<EnemySpaceShip>();
-        //    //    Debug.Log(enemy);
-
-        //    //    // Checks if the collided object is an enemy space ship
-        //    //    // and this object is not itself an enemy space ship
-        //    //    if (enemy != null && GetComponent<EnemySpaceShip>() == null)
-        //    //    {
-        //    //        // The space ship takes damage
-        //    //        TakeDamage(enemy);
-        //    //    }
-        //    //    // Otherwise no gamage is taken
-        //    //    else
-        //    //    {
-        //    //        Debug.Log("Hit, no damage");
-        //    //    }
-        //    //}
-        //}
     }
 }

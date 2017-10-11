@@ -7,12 +7,14 @@ namespace SpaceShooter
 {
     public class PlayerSpaceShip : SpaceShipBase
     {
-        //private float horSpeedModifier = 2f;
-        //private float vertSpeedModifier = 1f;
-
         public const string HORIZONTAL_AXIS = "Horizontal";
         public const string VERTICAL_AXIS = "Vertical";
         public const string FIRE_BUTTON_NAME = "Fire1";
+
+        [SerializeField]
+        private int lives = 3;
+
+        private AudioSource pickupSound;
 
         /// <summary>
         /// Gets the type of the unit: Player.
@@ -25,37 +27,33 @@ namespace SpaceShooter
             }
         }
 
+        public int Lives
+        {
+            get
+            {
+                return lives;
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            // Initializes audio
+            pickupSound = GetComponent<AudioSource>();
+
+            if (pickupSound == null)
+            {
+                Debug.LogError("No AudioSource component found in object PlayerSpaceShip.");
+            }
+        }
+
         private Vector3 GetInputVector()
         {
             float horizontalInput = Input.GetAxis(HORIZONTAL_AXIS);
             float verticalInput = Input.GetAxis(VERTICAL_AXIS);
 
             return new Vector3(horizontalInput, verticalInput);
-
-            // The movement vector that will be returned
-            //Vector3 movementVector = Vector3.zero;
-    
-            //if (Input.GetKey(KeyCode.W))
-            //{
-            //    movementVector += Vector3.up * vertSpeedModifier;
-            //}
-
-            //if (Input.GetKey(KeyCode.S))
-            //{
-            //    movementVector += Vector3.down * vertSpeedModifier;
-            //}
-
-            //if (Input.GetKey(KeyCode.A))
-            //{
-            //    movementVector += Vector3.left * horSpeedModifier;
-            //}
-
-            //if (Input.GetKey(KeyCode.D))
-            //{
-            //    movementVector += Vector3.right * horSpeedModifier;
-            //}
-
-            //return movementVector;
         }
 
         /// <summary>
@@ -71,6 +69,9 @@ namespace SpaceShooter
             transform.Translate(Utils.GetMovement(inputVector, Speed));
         }
 
+        /// <summary>
+        /// Updates the player ship.
+        /// </summary>
         protected override void Update()
         {
             base.Update();
@@ -78,6 +79,37 @@ namespace SpaceShooter
             if (Input.GetButton(FIRE_BUTTON_NAME))
             {
                 Shoot();
+            }
+        }
+
+        public void GainLife()
+        {
+            lives++;
+        }
+
+        protected override void Die()
+        {
+            // Decreases the amount of lives by one
+            lives--;
+
+            // The player ship is not deleted but
+            // made inactive until it respawns
+            gameObject.SetActive(false);
+
+            // Prints debug info
+            Debug.Log("The player ship was destroyed. " +
+                (lives <= 0 ? "NO LIVES LEFT" : "Lives: " + lives));
+        }
+
+        public override void PlaySound(string sound)
+        {
+            if (sound.Equals("healthItem") && pickupSound != null)
+            {
+                pickupSound.Play();
+            }
+            else
+            {
+                base.PlaySound(sound);
             }
         }
     }

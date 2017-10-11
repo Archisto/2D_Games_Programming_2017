@@ -12,13 +12,16 @@ namespace SpaceShooter
         }
 
         [SerializeField]
+        private PlayerSpawner playerSpawner;
+
+        [SerializeField]
+        private Spawner enemySpawner;
+
+        [SerializeField]
         private GameObjectPool playerProjectilePool;
 
         [SerializeField]
         private GameObjectPool enemyProjectilePool;
-
-        [SerializeField]
-        private Spawner enemySpawner;
 
         [SerializeField]
         private GameObject[] enemyMovementTargets;
@@ -62,6 +65,13 @@ namespace SpaceShooter
                 Debug.LogError("There are multiple LevelControllers in the scene.");
             }
 
+            if (playerSpawner == null)
+            {
+                Debug.LogError("No reference to a player spawner.");
+
+                playerSpawner = GetComponentInChildren<PlayerSpawner>();
+            }
+
             if (enemySpawner == null)
             {
                 Debug.LogError("No reference to an enemy spawner.");
@@ -84,6 +94,7 @@ namespace SpaceShooter
 
         protected void Start()
         {
+            SpawnPlayer();
             StartCoroutine(SpawnRoutine());
         }
 
@@ -114,6 +125,14 @@ namespace SpaceShooter
 
                 yield return new WaitForSeconds(spawnInterval);
             }
+        }
+
+        private PlayerSpaceShip SpawnPlayer()
+        {
+            PlayerSpaceShip playerShip = playerSpawner.SpawnPlayer().
+                GetComponent<PlayerSpaceShip>();
+
+            return playerShip;
         }
 
         private EnemySpaceShip SpawnEnemyUnit()

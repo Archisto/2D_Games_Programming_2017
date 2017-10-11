@@ -31,16 +31,21 @@ namespace SpaceShooter
         private int minHealth;
 
         /// <summary>
-        /// Is the game object dead
-        /// </summary>
-        private bool dead = false;
-
-        /// <summary>
         /// Sets the current health value at the start.
         /// </summary>
         private void Awake()
         {
+            RestoreStartingHealth();
+        }
+
+        public void RestoreStartingHealth()
+        {
             currentHealth = startingHealth;
+        }
+
+        public void RestoreMaxHealth()
+        {
+            currentHealth = maxHealth;
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace SpaceShooter
         {
             get
             {
-                return dead;
+                return (currentHealth <= minHealth);
             }
         }
 
@@ -71,7 +76,7 @@ namespace SpaceShooter
         /// <param name="amount">amount of health lost</param>
         public void DecreaseHealth(int amount)
         {
-            if (!dead)
+            if (!IsDead)
             {
                 // Decreases the current health value 
                 currentHealth -= amount;
@@ -81,7 +86,6 @@ namespace SpaceShooter
                 if (currentHealth <= minHealth)
                 {
                     currentHealth = minHealth;
-                    dead = true;
                 }
             }
         }
@@ -101,12 +105,6 @@ namespace SpaceShooter
                 if (currentHealth > maxHealth)
                 {
                     currentHealth = maxHealth;
-                }
-
-                // Sets the game object not dead if it has died
-                if (dead)
-                {
-                    dead = false;
                 }
             }
         }
