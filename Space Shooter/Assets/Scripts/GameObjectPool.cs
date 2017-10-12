@@ -82,7 +82,8 @@ namespace SpaceShooter
                 }
             }
 
-            Debug.LogError("The game object could not be returned to the pool.");
+            Debug.LogError("The game object does not belong " +
+                "to the pool and could not be returned.");
             return false;
         }
 

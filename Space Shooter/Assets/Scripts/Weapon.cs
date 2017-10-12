@@ -59,10 +59,6 @@ namespace SpaceShooter
                 return false;
             }
 
-            // Creates a new projectile
-            //Projectile projectile =
-            //    Instantiate(projectilePrefab, transform.position, transform.rotation);
-
             // Gets an inactive projectile from the projectile pool
             //Projectile projectile = LevelController.Current.GetProjectile(owner.UnitType);
             Projectile projectile = owner.GetPooledProjectile();
@@ -81,31 +77,19 @@ namespace SpaceShooter
 
                 // Launches the projectile
                 projectile.Launch(this, transform.up, projectileSpeed);
+
+                // Goes to the cooldown phase
+                isInCooldown = true;
+
+                // Resets the time since shot
+                elapsedWaitTime = 0f;
+
+                // The shot is successful -> returns true
+                return true;
             }
 
-            //// If the projectile is null, returns false for unsuccessful shot
-            //if (projectile == null)
-            //{
-            //    return false;
-            //}
-
-            //// Sets the projectile's type (either Player or Enemy)
-            //projectile.ProjectileType = GetComponentInParent<SpaceShipBase>().UnitType;
-
-            //// Sets the projectile's starting position
-            //projectile.transform.position = transform.position;
-
-            //// Launches the projectile
-            //projectile.Launch(this, transform.up, projectileSpeed);
-
-            // Goes to the cooldown phase
-            isInCooldown = true;
-
-            // Resets the time since shot
-            elapsedWaitTime = 0f;
-
-            // Returns true whether the shot is successful or not
-            return true;
+            // The shot is unsuccessful -> returns false
+            return false;
         }
 
         public bool DisposeProjectile(Projectile projectile)

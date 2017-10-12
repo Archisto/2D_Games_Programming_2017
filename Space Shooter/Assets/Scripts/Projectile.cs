@@ -14,17 +14,10 @@ namespace SpaceShooter
         [SerializeField]
         private int damage;
 
-        ///// <summary>
-        ///// The speed of the projectile
-        ///// </summary>
-        //[SerializeField]
-        //private float speed = 8f;
-
         private Weapon weapon;
 
         private float speed = 1;
 
-        //private SpaceShipBase.Type projectileType;
         private Rigidbody2D rigidBody;
         private Vector2 direction;
         private bool isLaunched = false;
@@ -37,9 +30,6 @@ namespace SpaceShooter
         public SpaceShipBase.Type ProjectileType
         {
             get { return weapon.ProjectileType; }
-
-            //get { return projectileType; }
-            //set { projectileType = value; }
         }
 
         /// <summary>
@@ -81,9 +71,6 @@ namespace SpaceShooter
                 // Inflicts damage to the target
                 damageReceiver.TakeDamage(GetDamage());
 
-                // Returns the projectile back to the pool
-                //LevelController.Current.ReturnProjectile(ProjectileType, this);
-
                 if ( !weapon.DisposeProjectile(this) )
                 {
                     Debug.LogError("Could not return the projectile to the pool.");
@@ -104,7 +91,7 @@ namespace SpaceShooter
             // Plays a sound
             if (shootSound != null)
             {
-                shootSound.Play();
+                shootSound.PlayOneShot(shootSound.clip, 1f);
             }
         }
 
