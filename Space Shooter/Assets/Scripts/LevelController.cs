@@ -12,7 +12,8 @@ namespace SpaceShooter
         }
 
         [SerializeField]
-        private PlayerSpawner playerSpawner;
+        private Spawner playerSpawner;
+        //private PlayerSpawner playerSpawner;
 
         [SerializeField]
         private Spawner enemySpawner;
@@ -69,14 +70,15 @@ namespace SpaceShooter
             {
                 Debug.LogError("No reference to a player spawner.");
 
-                playerSpawner = GetComponentInChildren<PlayerSpawner>();
+                //playerSpawner = GetComponentInChildren<Spawner>();
+                //playerSpawner = GetComponentInChildren<PlayerSpawner>();
             }
 
             if (enemySpawner == null)
             {
                 Debug.LogError("No reference to an enemy spawner.");
 
-                enemySpawner = GetComponentInChildren<Spawner>();
+                //enemySpawner = GetComponentInChildren<Spawner>();
 
                 // Esimerkkejä objektin etsimiselle:
 
@@ -96,6 +98,8 @@ namespace SpaceShooter
         {
             SpawnPlayer();
             StartCoroutine(SpawnRoutine());
+
+            Debug.Log("Current score: " + GameManager.Instance.CurrentScore);
         }
 
         private IEnumerator SpawnRoutine()
@@ -129,8 +133,24 @@ namespace SpaceShooter
 
         private PlayerSpaceShip SpawnPlayer()
         {
-            PlayerSpaceShip playerShip = playerSpawner.SpawnPlayer().
+            // TODO: Another implementation
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO!
+
+            PlayerSpaceShip playerShip = playerSpawner.Spawn().
                 GetComponent<PlayerSpaceShip>();
+
+            //PlayerSpaceShip playerShip = playerSpawner.SpawnPlayer().
+            //    GetComponent<PlayerSpaceShip>();
 
             return playerShip;
         }
@@ -207,6 +227,18 @@ namespace SpaceShooter
             else
             {
                 return enemyProjectilePool.ReturnObject(projectile.gameObject);
+            }
+        }
+
+        public void LifeLost(int currentLives)
+        {
+            if (currentLives == 0)
+            {
+                // TODO: Game over
+            }
+            else
+            {
+                SpawnPlayer();
             }
         }
     }

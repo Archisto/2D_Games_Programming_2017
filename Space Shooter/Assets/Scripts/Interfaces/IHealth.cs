@@ -6,5 +6,6 @@ namespace SpaceShooter
         bool IsDead { get; }
         void IncreaseHealth( int amount );
 		void DecreaseHealth( int amount );
+        void SetInvincible( bool isImmortal );
 	}
 }

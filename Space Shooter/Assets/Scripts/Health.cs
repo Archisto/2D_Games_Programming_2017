@@ -30,6 +30,8 @@ namespace SpaceShooter
         [SerializeField]
         private int minHealth;
 
+        private bool isInvincible = false;
+
         /// <summary>
         /// Sets the current health value at the start.
         /// </summary>
@@ -57,6 +59,8 @@ namespace SpaceShooter
             {
                 return currentHealth;
             }
+
+            // set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); }
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace SpaceShooter
         /// <param name="amount">amount of health lost</param>
         public void DecreaseHealth(int amount)
         {
-            if (!IsDead)
+            if (!IsDead && !isInvincible)
             {
                 // Decreases the current health value 
                 currentHealth -= amount;
@@ -107,6 +111,11 @@ namespace SpaceShooter
                     currentHealth = maxHealth;
                 }
             }
+        }
+
+        public void SetInvincible(bool isInvincible)
+        {
+            this.isInvincible = isInvincible;
         }
     }
 }

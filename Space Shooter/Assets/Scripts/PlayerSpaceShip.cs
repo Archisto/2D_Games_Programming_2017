@@ -11,8 +11,14 @@ namespace SpaceShooter
         public const string VERTICAL_AXIS = "Vertical";
         public const string FIRE_BUTTON_NAME = "Fire1";
 
+        //[SerializeField]
+        //private int lives = 3;
+
         [SerializeField]
-        private int lives = 3;
+        private float invincibleTime = 1;
+
+        [SerializeField]
+        private float blinkInterval = 0.3f;
 
         private AudioSource pickupSound;
 
@@ -27,13 +33,13 @@ namespace SpaceShooter
             }
         }
 
-        public int Lives
-        {
-            get
-            {
-                return lives;
-            }
-        }
+        //public int Lives
+        //{
+        //    get
+        //    {
+        //        return lives;
+        //    }
+        //}
 
         protected override void Awake()
         {
@@ -69,6 +75,47 @@ namespace SpaceShooter
             transform.Translate(Utils.GetMovement(inputVector, Speed));
         }
 
+        public void BecomeInvincible()
+        {
+            if (Health.IsDead)
+            {
+                var coroutine = StartCoroutine(InvincibleRoutine());
+            }
+        }
+
+        private IEnumerator InvincibleRoutine()
+        {
+            Health.SetInvincible(true);
+
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+            if (sr == null)
+            {
+                throw new Exception("No renderer found in PlayerSpaceShip object.");
+            }
+            else
+            {
+                Color color = sr.color;
+
+                float timer = 0f;
+                while (timer < invincibleTime)
+                {
+                    timer += blinkInterval;
+
+                    color.a = (color.a == 1 ? 0.3f : 1);
+                    sr.color = color;
+
+                    yield return new WaitForSeconds(blinkInterval);
+                }
+
+                color.a = 1;
+                sr.color = color;
+            }
+
+            Health.SetInvincible(false);
+            Health.RestoreStartingHealth();
+        }
+
         /// <summary>
         /// Updates the player ship.
         /// </summary>
@@ -84,21 +131,27 @@ namespace SpaceShooter
 
         public void GainLife()
         {
-            lives++;
+            GameManager.Instance.CurrentLives++;
+            //lives++;
         }
 
         protected override void Die()
         {
+            // TODO: Copy the teacher's implementation
+
+            GameManager.Instance.CurrentLives--;
+            BecomeInvincible();
+
             // Decreases the amount of lives by one
-            lives--;
+            //lives--;
 
             // The player ship is not deleted but
             // made inactive until it respawns
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
 
             // Prints debug info
-            Debug.Log("The player ship was destroyed. " +
-                (lives <= 0 ? "NO LIVES LEFT" : "Lives: " + lives));
+            //Debug.Log("The player ship was destroyed. " +
+            //    (lives <= 0 ? "NO LIVES LEFT" : "Lives: " + lives));
         }
 
         public override void PlaySound(string sound)
