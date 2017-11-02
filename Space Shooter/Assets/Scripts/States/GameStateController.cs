@@ -22,6 +22,7 @@ namespace SpaceShooter.States
 
             gameStates.Add(new Level1State());
             gameStates.Add(new Level2State());
+            gameStates.Add(new GameOverState());
         }
 
         public static bool PerformTransition(GameStateType targetStateType)

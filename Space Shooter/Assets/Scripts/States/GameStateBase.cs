@@ -17,6 +17,7 @@ namespace SpaceShooter.States
     public abstract class GameStateBase
     {
         public abstract string SceneName { get; }
+
         public abstract GameStateType StateType { get; }
 
         private List<GameStateType> validTargetStates = new List<GameStateType>();
@@ -57,6 +58,11 @@ namespace SpaceShooter.States
         public virtual void Deactivate()
         {
             // Does nothing by default
+        }
+
+        public virtual bool IsLastLevel
+        {
+            get { return false; }
         }
     }
 }

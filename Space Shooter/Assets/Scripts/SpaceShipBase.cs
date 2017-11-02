@@ -43,7 +43,7 @@ namespace SpaceShooter
         protected virtual void Awake()
         {
             // Prints debug data
-            Debug.Log("SpaceShipBase - Awake");
+            //Debug.Log("SpaceShipBase - Awake");
 
             // Gets all weapons attached to the space ship
             weapons = GetComponentsInChildren<Weapon>(includeInactive: true);
@@ -73,7 +73,10 @@ namespace SpaceShooter
         {
             foreach (Weapon weapon in weapons)
             {
-                weapon.Shoot();
+                if (weapon.gameObject.activeInHierarchy)
+                {
+                    weapon.Shoot();
+                }
             }
         }
 
@@ -115,8 +118,8 @@ namespace SpaceShooter
                 Health.DecreaseHealth(amount);
 
                 // Prints debug info
-                Debug.Log(name + ": " + amount + " damage! HP: "
-                    + Health.CurrentHealth);
+                //Debug.Log(name + ": " + amount + " damage! HP: "
+                //    + Health.CurrentHealth);
 
                 // Kills the space ship if its HP reaches the minimum value
                 if (Health.IsDead)
@@ -148,13 +151,11 @@ namespace SpaceShooter
             Destroy(gameObject);
         }
 
-        // not protected anymore!
         public Projectile GetPooledProjectile()
         {
             return LevelController.Current.GetProjectile(UnitType);
         }
 
-        // not protected anymore!
         public bool ReturnPooledProjectile(Projectile projectile)
         {
             return LevelController.Current.ReturnProjectile(UnitType, projectile);

@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 namespace SpaceShooter.States
 {
-    class Level2State : GameStateBase
+    class GameOverState : GameStateBase
     {
         public override string SceneName
         {
             get
             {
-                return "Level2";
+                return "GameOver";
             }
         }
 
@@ -20,21 +20,16 @@ namespace SpaceShooter.States
         {
             get
             {
-                return GameStateType.Level2;
+                return GameStateType.GameOver;
             }
-        }
-
-        public override bool IsLastLevel
-        {
-            get { return true; }
         }
 
         /// <summary>
         /// The constructor. Called right after the object is instantiated.
         /// </summary>
-        public Level2State()
+        public GameOverState()
         {
-            AddTargetState(GameStateType.GameOver);
+            AddTargetState(GameStateType.MainMenu);
         }
     }
 }

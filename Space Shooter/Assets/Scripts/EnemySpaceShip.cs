@@ -81,9 +81,12 @@ namespace SpaceShooter
 
         protected override void Die()
         {
-            FindObjectOfType<LevelController>().EnemyDestroyed();
-
             base.Die();
+
+            if (LevelController.Current != null)
+            {
+                LevelController.Current.EnemyDestroyed(transform.position);
+            }
         }
     }
 }

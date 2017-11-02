@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SpaceShooter.States;
 
 namespace SpaceShooter
 {
@@ -33,6 +34,8 @@ namespace SpaceShooter
             get { return currentLives; }
             set
             {
+                bool lifeLost = (value < currentLives);
+
                 currentLives = value;
 
                 if (currentLives <= 0)
@@ -40,14 +43,16 @@ namespace SpaceShooter
                     currentLives = 0;
                 }
 
-                if (LevelController.Current != null)
+                if (lifeLost && LevelController.Current != null)
                 {
-                    LevelController.Current.LifeLost(currentLives);
+                    LevelController.Current.LifeLost(currentLives == 0);
                 }
             }
         }
 
-        public int CurrentScore { get; private set; }
+        public int CurrentScore { get; set; }
+
+        public bool GameWon { get; set; }
 
         private void Awake()
         {
@@ -55,7 +60,7 @@ namespace SpaceShooter
             {
                 instance = this;
             }
-            else
+            else if (instance != this)
             {
                 Destroy(gameObject);
                 return;
@@ -68,12 +73,18 @@ namespace SpaceShooter
         {
             DontDestroyOnLoad(gameObject);
             Reset();
+            GameWon = false;
         }
 
         public void Reset()
         {
             currentLives = startingLives;
             CurrentScore = 0;
+        }
+
+        public void UpdateGameWon()
+        {
+            GameWon = GameStateController.CurrentState.IsLastLevel;
         }
     }
 }

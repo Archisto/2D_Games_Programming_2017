@@ -60,15 +60,11 @@ namespace SpaceShooter
             }
 
             // Gets an inactive projectile from the projectile pool
-            //Projectile projectile = LevelController.Current.GetProjectile(owner.UnitType);
             Projectile projectile = owner.GetPooledProjectile();
 
             // If there is a projectile, it is initialized and launched
             if (projectile != null)
             {
-                // Sets the projectile's type (either Player or Enemy)
-                //projectile.ProjectileType = GetComponentInParent<SpaceShipBase>().UnitType;
-
                 // Sets the projectile's starting position
                 projectile.transform.position = transform.position;
 

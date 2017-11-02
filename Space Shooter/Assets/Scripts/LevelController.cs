@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SpaceShooter.States;
 
 namespace SpaceShooter
 {
@@ -13,7 +14,6 @@ namespace SpaceShooter
 
         [SerializeField]
         private Spawner playerSpawner;
-        //private PlayerSpawner playerSpawner;
 
         [SerializeField]
         private Spawner enemySpawner;
@@ -47,10 +47,30 @@ namespace SpaceShooter
             Tooltip("The maximum amount of simultaneously existing enemies.")]
         private int maxConcurrentEnemyCount = 10;
 
+        [SerializeField]
+        private int targetEnemiesKilled = 5;
+
+        [SerializeField, Range(0.0f, 1.0f)]
+        private float itemDropChance;
+
+        [SerializeField]
+        private GameObject healthPowerUp;
+
+        [SerializeField]
+        private GameObject extraWeaponPowerUp;
+
+        [SerializeField]
+        private GameStateType nextState;
+
         /// <summary>
         /// The current enemy count
         /// </summary>
         private int enemyCount;
+
+        /// <summary>
+        /// The amount of killed enemies
+        /// </summary>
+        private int killedEnemies;
 
         /// <summary>
         /// Called first when a Scene is loaded or the object is created.
@@ -98,8 +118,6 @@ namespace SpaceShooter
         {
             SpawnPlayer();
             StartCoroutine(SpawnRoutine());
-
-            Debug.Log("Current score: " + GameManager.Instance.CurrentScore);
         }
 
         private IEnumerator SpawnRoutine()
@@ -133,24 +151,15 @@ namespace SpaceShooter
 
         private PlayerSpaceShip SpawnPlayer()
         {
-            // TODO: Another implementation
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO!
+            PlayerSpaceShip playerShip = null;
+            GameObject playerObject = playerSpawner.Spawn();
 
-            PlayerSpaceShip playerShip = playerSpawner.Spawn().
-                GetComponent<PlayerSpaceShip>();
+            if (playerObject != null)
+            {
+                playerShip = playerObject.GetComponent<PlayerSpaceShip>();
+            }
 
-            //PlayerSpaceShip playerShip = playerSpawner.SpawnPlayer().
-            //    GetComponent<PlayerSpaceShip>();
+            playerShip.BecomeInvincible();
 
             return playerShip;
         }
@@ -168,16 +177,66 @@ namespace SpaceShooter
             return enemyShip;
         }
 
-        public void EnemyDestroyed()
+        public void EnemyDestroyed(Vector3 enemyPosition)
         {
+            // Decreases the amount of enemies in the level
             enemyCount--;
+
+            // Increases the amount of killed enemies
+            killedEnemies++;
+
+            // Gives score
+            GameManager.Instance.CurrentScore += 10;
+
+            // Determines the dropped power-up, if any
+            DropPowerUp(enemyPosition);
+
+            // If enough enemies have been killed, the level is completed
+            if (killedEnemies >= targetEnemiesKilled)
+            {
+                GameManager.Instance.UpdateGameWon();
+                GoToState(nextState);
+            }
         }
 
-        /// <summary>
-        /// Spawns a new enemy with a key press.
-        /// </summary>
+        private void DropPowerUp(Vector3 position)
+        {
+            // Only if drop chance is above 0 can a power-up be dropped
+            if (itemDropChance > 0)
+            {
+                GameObject powerUpItem;
+
+                float random = Random.Range(0f, 1f);
+
+                if (random <= itemDropChance)
+                {
+                    random = Random.Range(0f, 1f);
+
+                    // Health power-up
+                    if (random < 0.5f)
+                    {
+                        powerUpItem = Instantiate(healthPowerUp);
+                    }
+                    // Extra weapon power-up
+                    else
+                    {
+                        powerUpItem = Instantiate(extraWeaponPowerUp);
+                    }
+
+                    powerUpItem.transform.position = position;
+                }
+            }
+        }
+
+        private void GoToState(GameStateType state)
+        {
+            Debug.Log("Transitioning to " + state);
+            GameStateController.PerformTransition(state);
+        }
+
         public void Update()
         {
+            // Spawns a new enemy with a key press
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 SpawnEnemyUnit();
@@ -230,14 +289,20 @@ namespace SpaceShooter
             }
         }
 
-        public void LifeLost(int currentLives)
+        public void LifeLost(bool outOfLives)
         {
-            if (currentLives == 0)
+            // If the player runs out of lives,
+            // the game over screen is displayed
+            if (outOfLives)
             {
-                // TODO: Game over
+                GameManager.Instance.GameWon = false;
+                GoToState(GameStateType.GameOver);
             }
             else
             {
+                // Lowers score
+                GameManager.Instance.CurrentScore -= 5;
+
                 SpawnPlayer();
             }
         }

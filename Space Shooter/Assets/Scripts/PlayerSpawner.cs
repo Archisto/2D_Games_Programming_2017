@@ -6,6 +6,12 @@ namespace SpaceShooter
 {
     public class PlayerSpawner : MonoBehaviour
     {
+
+
+        // Not needed anymore.
+
+
+
         [SerializeField]
         protected GameObject playerShipObject;
 
