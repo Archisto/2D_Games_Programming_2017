@@ -53,12 +53,12 @@ GameObject:
   - component: {fileID: 4918248838461954}
   - component: {fileID: 114488947795194424}
   m_Layer: 0
-  m_Name: Background
+  m_Name: ScrollingBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4170833008890880
 Transform:
   m_ObjectHideFlags: 1

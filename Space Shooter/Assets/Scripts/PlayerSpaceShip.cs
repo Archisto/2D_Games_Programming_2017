@@ -162,8 +162,8 @@ namespace SpaceShooter
             ActivateExtraWeaponPowerUp(true);
             extraWeaponDuration += duration;
 
-            Debug.Log("Extra weapon power-up collected");
-            Debug.Log(extraWeaponDuration + " seconds left");
+            Debug.Log("Extra weapon power-up collected; " +
+                      extraWeaponDuration + " seconds left");
 
             // Plays a sound
             pickupSound.Play();
@@ -171,37 +171,50 @@ namespace SpaceShooter
 
         public void ActivateExtraWeaponPowerUp(bool activate)
         {
-            if (extraWeaponPowerUp != activate)
+            // If the power-up's state does not change, nothing happens
+            if (extraWeaponPowerUp == activate)
             {
-                extraWeaponPowerUp = activate;
+                return;
+            }
 
-                Weapon[] weapons = GetComponentsInChildren<Weapon>(true);
+            // Changes the power-up's state
+            extraWeaponPowerUp = activate;
 
-                string primaryWeapon = "PrimaryWeapon";
+            // All of the player ship's weapons,
+            // both active and inactive
+            Weapon[] weapons = GetComponentsInChildren<Weapon>(true);
 
-                foreach (Weapon weapon in weapons)
+            // The primary weapon's tag
+            string primaryWeapon = "PrimaryWeapon";
+
+            foreach (Weapon weapon in weapons)
+            {
+                // The power-up is activated
+                if (activate)
                 {
-                    if (activate)
+                    // The primary weapon is deactivated
+                    // and the extra weapons are activated
+                    if (weapon.gameObject.CompareTag(primaryWeapon))
                     {
-                        if (weapon.gameObject.CompareTag(primaryWeapon))
-                        {
-                            weapon.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            weapon.gameObject.SetActive(true);
-                        }
+                        weapon.gameObject.SetActive(false);
                     }
                     else
                     {
-                        if (weapon.gameObject.CompareTag(primaryWeapon))
-                        {
-                            weapon.gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            weapon.gameObject.SetActive(false);
-                        }
+                        weapon.gameObject.SetActive(true);
+                    }
+                }
+                // The power-up is deactivated
+                else
+                {
+                    // The primary weapon is activated
+                    // and the extra weapons are deactivated
+                    if (weapon.gameObject.CompareTag(primaryWeapon))
+                    {
+                        weapon.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        weapon.gameObject.SetActive(false);
                     }
                 }
             }

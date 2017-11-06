@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SpaceShooter
 {
-    public class HealthPowerUp : PowerUpBase
+    public class HealthPowerUp : PowerUpItem
     {
         /// <summary>
         /// The amount of health given when collected

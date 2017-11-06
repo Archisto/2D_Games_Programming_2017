@@ -10,13 +10,13 @@ namespace SpaceShooter
         ExtraWeapon = 1
     }
 
-    public abstract class PowerUpBase : MonoBehaviour
+    public abstract class PowerUpItem : MonoBehaviour
     {
         /// <summary>
         /// The time until the power-up item disappears (in seconds)
         /// </summary>
         [SerializeField]
-        private float lifetime = 5;
+        private float itemLifetime = 5;
 
         private float elapsedTime = 0;
 
@@ -36,7 +36,7 @@ namespace SpaceShooter
             elapsedTime += Time.deltaTime;
 
             // If time is up, the power-up item is destroyed
-            if (elapsedTime > lifetime)
+            if (elapsedTime > itemLifetime)
             {
                 Destroy(gameObject);
             }

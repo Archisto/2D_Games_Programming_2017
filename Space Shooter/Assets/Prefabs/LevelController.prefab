@@ -326,6 +326,8 @@ MonoBehaviour:
   spawnInterval: 1
   maxConcurrentEnemyCount: 5
   targetEnemiesKilled: 30
+  scoreFromKill: 10
+  scorePenaltyFromDeath: -50
   itemDropChance: 0.3
   healthPowerUp: {fileID: 1751379281908080, guid: c2f6218365e1f8246b446ecc50b91527,
     type: 2}

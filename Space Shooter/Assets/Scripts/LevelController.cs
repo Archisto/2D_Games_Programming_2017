@@ -50,6 +50,12 @@ namespace SpaceShooter
         [SerializeField]
         private int targetEnemiesKilled = 5;
 
+        [SerializeField, Range(0, 1000)]
+        private int scoreFromKill;
+
+        [SerializeField, Range(-1000, 0)]
+        private int scorePenaltyFromDeath;
+
         [SerializeField, Range(0.0f, 1.0f)]
         private float itemDropChance;
 
@@ -186,7 +192,7 @@ namespace SpaceShooter
             killedEnemies++;
 
             // Gives score
-            GameManager.Instance.CurrentScore += 10;
+            GameManager.Instance.CurrentScore += scoreFromKill;
 
             // Determines the dropped power-up, if any
             DropPowerUp(enemyPosition);
@@ -194,14 +200,14 @@ namespace SpaceShooter
             // If enough enemies have been killed, the level is completed
             if (killedEnemies >= targetEnemiesKilled)
             {
-                GameManager.Instance.UpdateGameWon();
+                GameManager.Instance.LevelCompleted();
                 GoToState(nextState);
             }
         }
 
         private void DropPowerUp(Vector3 position)
         {
-            // Only if drop chance is above 0 can a power-up be dropped
+            // Only if drop chance is above 0 can a power-up item be dropped
             if (itemDropChance > 0)
             {
                 GameObject powerUpItem;
@@ -213,7 +219,7 @@ namespace SpaceShooter
                     random = Random.Range(0f, 1f);
 
                     // Health power-up
-                    if (random < 0.5f)
+                    if (random > 0.5f)
                     {
                         powerUpItem = Instantiate(healthPowerUp);
                     }
@@ -236,7 +242,7 @@ namespace SpaceShooter
 
         public void Update()
         {
-            // Spawns a new enemy with a key press
+            // Spawns a new enemy unit with a key press
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 SpawnEnemyUnit();
@@ -301,7 +307,7 @@ namespace SpaceShooter
             else
             {
                 // Lowers score
-                GameManager.Instance.CurrentScore -= 5;
+                GameManager.Instance.CurrentScore += scorePenaltyFromDeath;
 
                 SpawnPlayer();
             }

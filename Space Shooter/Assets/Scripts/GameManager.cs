@@ -82,7 +82,7 @@ namespace SpaceShooter
             CurrentScore = 0;
         }
 
-        public void UpdateGameWon()
+        public void LevelCompleted()
         {
             GameWon = GameStateController.CurrentState.IsLastLevel;
         }

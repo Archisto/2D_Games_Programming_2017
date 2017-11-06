@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace SpaceShooter
 {
-    public class ExtraWeaponPowerUp : PowerUpBase
+    public class ExtraWeaponPowerUp : PowerUpItem
     {
         /// <summary>
         /// The duration of the power-up until its effect ends
         /// </summary>
         [SerializeField]
-        private float duration = 5;
+        private float powerUpDuration = 5;
 
         public override PowerUpType Type
         {
@@ -23,7 +23,7 @@ namespace SpaceShooter
 
             if (player != null)
             {
-                player.CollectExtraWeaponPowerUp(duration);
+                player.CollectExtraWeaponPowerUp(powerUpDuration);
 
                 // Destroys the power-up item
                 Destroy(gameObject);
