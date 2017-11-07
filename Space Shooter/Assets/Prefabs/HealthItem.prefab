@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc551ffe2e42014ab2e9270c5f07ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 5
-  healthBoost: 5
+  itemLifetime: 5
+  healthBoost: 3
 --- !u!212 &212083209493880900
 SpriteRenderer:
   m_ObjectHideFlags: 1

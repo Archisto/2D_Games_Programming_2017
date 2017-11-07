@@ -139,8 +139,8 @@ namespace SpaceShooter
             Health.IncreaseHealth(amount);
 
             // Prints debug info
-            Debug.Log(name + ": +" + amount + " health! HP: "
-                + Health.CurrentHealth);
+            //Debug.Log(name + ": +" + amount + " health! HP: "
+            //    + Health.CurrentHealth);
         }
 
         /// <summary>

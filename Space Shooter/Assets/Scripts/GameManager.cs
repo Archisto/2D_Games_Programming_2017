@@ -28,6 +28,7 @@ namespace SpaceShooter
         private int startingLives = 3;
 
         private int currentLives;
+        private int currentScore;
 
         public int CurrentLives
         {
@@ -50,7 +51,21 @@ namespace SpaceShooter
             }
         }
 
-        public int CurrentScore { get; set; }
+        public int CurrentScore
+        {
+            get
+            {
+                return currentScore;
+            }
+            set
+            {
+                currentScore = value;
+                if (currentScore < 0)
+                {
+                    currentScore = 0;
+                }
+            }
+        }
 
         public bool GameWon { get; set; }
 

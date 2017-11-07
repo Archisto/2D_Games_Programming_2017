@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 10
-  maxHealth: 20
+  maxHealth: 10
   minHealth: 0
 --- !u!114 &114176143022674870
 MonoBehaviour:

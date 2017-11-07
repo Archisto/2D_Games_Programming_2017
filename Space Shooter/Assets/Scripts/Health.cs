@@ -64,6 +64,17 @@ namespace SpaceShooter
         }
 
         /// <summary>
+        /// Gets the maximum health value.
+        /// </summary>
+        public int MaxHealth
+        {
+            get
+            {
+                return maxHealth;
+            }
+        }
+
+        /// <summary>
         /// Gets whether health has reached the minimum value.
         /// </summary>
         public bool IsDead

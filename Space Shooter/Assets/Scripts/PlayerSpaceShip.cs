@@ -33,6 +33,14 @@ namespace SpaceShooter
             }
         }
 
+        public float ExtraWeaponDuration
+        {
+            get
+            {
+                return extraWeaponDuration;
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -149,21 +157,14 @@ namespace SpaceShooter
 
             // Plays a sound
             pickupSound.Play();
-
-            //ISoundPlayer sound = GetComponent<ISoundPlayer>();
-            //if (sound != null)
-            //{
-            //    sound.PlaySound("healthItem");
-            //}
         }
 
         public void CollectExtraWeaponPowerUp(float duration)
         {
+            Debug.Log("Extra weapon power-up collected");
+
             ActivateExtraWeaponPowerUp(true);
             extraWeaponDuration += duration;
-
-            Debug.Log("Extra weapon power-up collected; " +
-                      extraWeaponDuration + " seconds left");
 
             // Plays a sound
             pickupSound.Play();

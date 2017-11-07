@@ -78,6 +78,31 @@ namespace SpaceShooter
         /// </summary>
         private int killedEnemies;
 
+        private PlayerSpaceShip playerShip;
+
+        public PlayerSpaceShip Player
+        {
+            get
+            {
+                return playerShip;
+            }
+        }
+
+        public Health PlayerHealth
+        {
+            get
+            {
+                if (playerShip != null)
+                {
+                    return playerShip.gameObject.GetComponent<Health>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         /// <summary>
         /// Called first when a Scene is loaded or the object is created.
         /// </summary>
@@ -166,6 +191,8 @@ namespace SpaceShooter
             }
 
             playerShip.BecomeInvincible();
+
+            this.playerShip = playerShip;
 
             return playerShip;
         }
@@ -301,6 +328,7 @@ namespace SpaceShooter
             // the game over screen is displayed
             if (outOfLives)
             {
+                playerShip = null;
                 GameManager.Instance.GameWon = false;
                 GoToState(GameStateType.GameOver);
             }
